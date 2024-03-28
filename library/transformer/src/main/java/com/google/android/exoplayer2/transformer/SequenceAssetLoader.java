@@ -36,6 +36,7 @@ import com.google.android.exoplayer2.util.HandlerWrapper;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.OnInputFrameProcessedListener;
 import com.google.android.exoplayer2.util.TimestampIterator;
+import com.google.android.exoplayer2.util.Util;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import java.util.HashMap;
@@ -286,7 +287,13 @@ import java.util.concurrent.atomic.AtomicInteger;
       sampleConsumer =
           checkStateNotNull(
               sampleConsumersByTrackType.get(trackType),
-              "The preceding MediaItem does not contain any track of type " + trackType);
+              Util.formatInvariant(
+                  "The preceding MediaItem does not contain any track of type %d. If the"
+                      + " Composition contains a sequence that starts with items without audio"
+                      + " tracks (like images), followed by items with audio tracks,"
+                      + " Composition.Builder.experimentalSetForceAudioTrack() needs to be set to"
+                      + " true.",
+                  trackType));
     }
     onMediaItemChanged(trackType, format);
     if (nonEndedTracks.get() == 1 && sampleConsumersByTrackType.size() == 2) {
