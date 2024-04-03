@@ -31,7 +31,6 @@ import com.google.android.exoplayer2.util.EGLSurfaceTexture;
 import com.google.android.exoplayer2.util.EGLSurfaceTexture.SecureMode;
 import com.google.android.exoplayer2.util.GlUtil;
 import com.google.android.exoplayer2.util.Log;
-import com.google.android.exoplayer2.util.Util;
 import com.google.errorprone.annotations.InlineMe;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
@@ -85,8 +84,6 @@ public final class PlaceholderSurface extends Surface {
   /**
    * Returns a newly created placeholder surface. The surface must be released by calling {@link
    * #release} when it's no longer required.
-   *
-   * <p>Must only be called if {@link Util#SDK_INT} is 17 or higher.
    *
    * @param context Any {@link Context}.
    * @param secure Whether a secure surface is required. Must only be requested if {@link
