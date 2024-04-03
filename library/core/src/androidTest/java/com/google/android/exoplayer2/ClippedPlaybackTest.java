@@ -30,6 +30,7 @@ import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -177,10 +178,12 @@ public final class ClippedPlaybackTest {
 
     private final ConditionVariable playbackEnded;
     private final List<List<Cue>> cues;
+    private final AtomicReference<PlaybackException> playerError;
 
     private TextCapturingPlaybackListener() {
       playbackEnded = new ConditionVariable();
-      cues = new ArrayList<>();
+      cues = Collections.synchronizedList(new ArrayList<>());
+      playerError = new AtomicReference<>();
     }
 
     @Override
@@ -195,8 +198,18 @@ public final class ClippedPlaybackTest {
       }
     }
 
-    public void block() throws InterruptedException {
+    @Override
+    public void onPlayerError(PlaybackException error) {
+      playerError.set(error);
+      playbackEnded.open();
+    }
+
+    public void block() throws InterruptedException, PlaybackException {
       playbackEnded.block();
+      PlaybackException playerError = this.playerError.get();
+      if (playerError != null) {
+        throw playerError;
+      }
     }
   }
 }
