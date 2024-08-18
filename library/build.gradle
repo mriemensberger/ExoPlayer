@@ -14,8 +14,8 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '25.0.0'
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
 
     defaultConfig {
         // Important: ExoPlayerLib specifies a minSdkVersion of 9 because
@@ -24,7 +24,7 @@ android {
         // functionality provided by the library requires API level 16 or
         // greater.
         minSdkVersion 9
-        targetSdkVersion 23
+        targetSdkVersion 28
     }
 
     buildTypes {
