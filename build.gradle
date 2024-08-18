@@ -19,6 +19,9 @@ buildscript {
         google()
         mavenCentral()
         jcenter()
+        maven {
+            url "https://maven.scijava.org/content/repositories/public"
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.2'
